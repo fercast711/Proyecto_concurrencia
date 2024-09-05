@@ -25,5 +25,9 @@ public class Main {
                 scanner.next();
             }
         }
+        if(num ==1){
+            DataPreprocessor preprocesamiento = new DataPreprocessor();
+            preprocesamiento.data_processing();
+        }
     }
 }
