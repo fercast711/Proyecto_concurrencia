@@ -55,13 +55,15 @@ public class DataPreprocessor {
 
                     //divide las palabras de la linea
                     String[] palabras = newline.split(" ");
-
+                    String lineValid = "";
                     //valida que las palabras no esten en el diccionario
                     for (int i = 0; i < palabras.length; i++) {
                         if (!stopwords.contains(palabras[i].toLowerCase()) && !palabras[i].isBlank() && !palabras[i].contains("https")) {
-                            bw.write(palabras[i].toLowerCase() + " "); //guarda las palabras ya validadas en un txt
+                            lineValid += palabras[i].toLowerCase() + " "; //guarda las palabras ya validadas en un txt
                         }
                     }
+                    bw.write(lineValid);
+                    bw.write("\n");
                 }
             }
             bw.flush();
@@ -69,13 +71,6 @@ public class DataPreprocessor {
             e.printStackTrace();
         }
 
-        /*try (BufferedWriter bw = new BufferedWriter(new FileWriter("datasetValidado.txt"))){
-            for (String word : wordslist)
-                bw.write(word + " ");
-            bw.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
 
         System.out.println("PREPOCESAMIENTO TERMINADO CON ÉXITO");
     }
