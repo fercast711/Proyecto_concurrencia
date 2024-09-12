@@ -29,5 +29,9 @@ public class Main {
             DataPreprocessor preprocesamiento = new DataPreprocessor();
             preprocesamiento.data_processing();
         }
+        if(num == 2){
+            FrequencyAnalyzer freq = new FrequencyAnalyzer();
+            freq.Frequency(20);
+        }
     }
 }
