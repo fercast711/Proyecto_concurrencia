@@ -17,7 +17,7 @@ public class FrequencyAnalyzer {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             String line;
-
+//hola
             System.out.println("\n--------------------------------\n" + "MINIMUM SUPPORT");
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split("\t");
