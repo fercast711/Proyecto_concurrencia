@@ -7,7 +7,6 @@ import java.util.*;
 public class FrequencyAnalyzer {
     public Map<String, Integer> wordFreq = new HashMap<>();
     public List<Map.Entry<String, Integer>> topWords = new ArrayList<>();
-    private int top = 20;
 
     public void Frequency(int top){
         String file = "src/recursos/part-00000";
