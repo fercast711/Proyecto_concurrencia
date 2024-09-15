@@ -56,6 +56,7 @@ public class FrequencyAnalyzer {
                 //String bw_line = count+". "+entry.getKey() + "\t" + entry.getValue() + " times repeated\n"; //me rendi con esto pipipipi
                 System.out.println(entry.getKey() + ": " + entry.getValue());
                 bw.write(bw_line);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
