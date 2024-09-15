@@ -7,8 +7,10 @@ import java.util.*;
 public class FrequencyAnalyzer {
     public Map<String, Integer> wordFreq = new HashMap<>();
     public List<Map.Entry<String, Integer>> topWords = new ArrayList<>();
+    private int top = 20;
 
     public void Frequency(int top){
+        this.top = top;
         String file = "src/recursos/part-00000";
         String file2 = "src/recursos/part-00000-pair";
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("src/recursos/TopWords.txt"))){
