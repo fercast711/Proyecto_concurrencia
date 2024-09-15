@@ -32,6 +32,7 @@ public class FrequencyAnalyzer {
     public void Analysis(String file,BufferedWriter bw){
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             String line;
+            //System.out.println("\n--------------------------------\n" + "MINIMUM SUPPORT");
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split("\t");
                 int count = Integer.parseInt(fields[1]);
@@ -41,6 +42,7 @@ public class FrequencyAnalyzer {
                     //System.out.println(fields[0]+" - "+count);
                 }
             }
+            //System.out.println("\n--------------------------------\nTOP 20");
             // Add to the list and keep sorted with just 20 words
             for (Map.Entry<String, Integer> entry : wordFreq.entrySet()) {
                 Sort(entry);
