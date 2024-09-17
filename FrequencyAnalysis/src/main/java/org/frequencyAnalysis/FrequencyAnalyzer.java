@@ -11,14 +11,14 @@ public class FrequencyAnalyzer {
 
     public void Frequency(int top){
         this.top = top;
-        String file = "src/recursos/part-00000";
-        String file2 = "src/recursos/part-00000-pair";
+        String file = "src/recursos/datasetValidadoWordOutput/part-00000";
+        String file2 = "src/recursos/datasetValidadoPairOutput/part-00000";
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("src/recursos/TopWords.txt"))){
             bw.write("-------------- ITEMSETS ONE WORD --------------\n");
             Analysis(file,bw);
             wordFreq = new HashMap<>();
             topWords = new ArrayList<>();
-            bw.write("\n-------------- ITEMSETS TWO WORD --------------\n");
+            bw.write("\n-------------- ITEMSETS TWO WORDS --------------\n");
             Analysis(file2,bw);
             bw.flush();
         }catch (IOException e){
