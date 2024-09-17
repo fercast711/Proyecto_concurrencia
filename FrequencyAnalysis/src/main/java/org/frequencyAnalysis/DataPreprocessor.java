@@ -62,8 +62,10 @@ public class DataPreprocessor {
                             lineValid += palabras[i].toLowerCase() + " "; //guarda las palabras ya validadas en un txt
                         }
                     }
-                    bw.write(lineValid);
-                    bw.write("\n");
+                    if(!lineValid.equals("")){
+                        bw.write(lineValid.trim());
+                        bw.write("\n");
+                    }
                 }
             }
             bw.flush();
