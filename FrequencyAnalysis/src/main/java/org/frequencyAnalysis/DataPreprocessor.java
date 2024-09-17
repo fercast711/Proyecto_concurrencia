@@ -28,7 +28,8 @@ public class DataPreprocessor {
                 stopwords.add(line); // agrega cada palabra del archivo
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No se encontro o no se pudo leer el diccionario");
+            return;
         }
 
         System.out.println("PREPROCESAMIENTO INICIADO...");
