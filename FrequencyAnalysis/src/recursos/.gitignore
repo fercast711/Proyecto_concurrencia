@@ -1,8 +1,8 @@
 reddit_opinion_PSE_ISR.csv
 reddit_opinion_PSE_ISR.csv:Zone.Identifier
 datasetValidado.txt
-datasetValidadoWordOutput/part-00000
-datasetValidadoPairOutput/part-00000
+datasetValidadoWordOutput/
+datasetValidadoPairOutput/
 TopWords.txt
 part-00000-pair
 part-00000

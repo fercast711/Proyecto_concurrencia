@@ -23,7 +23,7 @@ public class FrequencyAnalyzer {
             Analysis(file2,bw);
             bw.flush();
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("No se pudo escribir correctamente en el TopWords.txt");
         }
     }
     public void Sort(Map.Entry<String, Integer> entry){
@@ -56,13 +56,13 @@ public class FrequencyAnalyzer {
             for (Map.Entry<String, Integer> entry : topWords) {
                 count++;
                 String bw_line = count+". "+entry.getKey() + ": " + entry.getValue() + "\n";
-                //String bw_line = count+". "+entry.getKey() + "\t" + entry.getValue() + " times repeated\n"; //me rendi con esto pipipipi
+                //String bw_line = count+". "+entry.getKey() + "\t" + entry.getValue() + " times repeated\n";
                 System.out.println(entry.getKey() + ": " + entry.getValue());
                 bw.write(bw_line);
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("No se encontro o no se pudo leer el archivo");
         }
     }
 }
