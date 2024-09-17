@@ -11,6 +11,7 @@ public class FrequencyAnalyzer {
 
     public void Frequency(int top){
         this.top = top;
+        //Direccion de files a analizar de Word Count
         String file = "src/recursos/datasetValidadoWordOutput/part-00000";
         String file2 = "src/recursos/datasetValidadoPairOutput/part-00000";
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("src/recursos/TopWords.txt"))){
