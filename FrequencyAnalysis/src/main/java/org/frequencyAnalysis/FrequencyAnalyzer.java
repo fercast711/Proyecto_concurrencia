@@ -62,7 +62,7 @@ public class FrequencyAnalyzer {
 
             }
         } catch (IOException e) {
-            System.out.println("No se encontro o no se pudo leer el archivo");
+            System.out.println("No se encontró o no se pudo leer el archivo");
         }
     }
 }
