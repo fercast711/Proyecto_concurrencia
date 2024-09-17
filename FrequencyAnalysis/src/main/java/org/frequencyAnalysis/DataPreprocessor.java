@@ -1,15 +1,15 @@
 package org.frequencyAnalysis;
 
-import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 
 public class DataPreprocessor {
@@ -21,8 +21,6 @@ public class DataPreprocessor {
         String diccionario = "src/recursos/StopwordsDictionary.txt",
                 dataset = "src/recursos/reddit_opinion_PSE_ISR.csv";
 
-        ArrayList<String> wordslist = new ArrayList<>();
-
         //agrega las stopwords generales al HashSet
         try (BufferedReader br = new BufferedReader(new FileReader(diccionario))) {
             String line;
@@ -33,46 +31,68 @@ public class DataPreprocessor {
             e.printStackTrace();
         }
 
-        CSVParser parser = new CSVParserBuilder()
-                .withQuoteChar(CSVParser.NULL_CHARACTER)  // Desactiva el manejo estricto de comillas
-                .build();
-
-        System.out.println("LEYENDO DATOS...");
+        System.out.println("PREPROCESAMIENTO INICIADO...");
 
         //lee el SOLO la columna deseada del dataset(2) y aplica las validaciones
-        try (CSVReader reader = new CSVReaderBuilder(new FileReader(dataset)).withCSVParser(parser).build()) {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/recursos/datasetValidado.txt"));
-            while ((columna = reader.readNext()) != null) {
-                // Verificar si la columna deseada existe
-                if (columna.length > 2) {
-                    String line = columna[2], newline = "";
+        String urlPattern = "(https?|ftp)://[^\\s/$.?#].[^\\s]*";
+        Pattern pattern = Pattern.compile(urlPattern);
+        try (CSVReader reader = new CSVReaderBuilder(new FileReader(dataset))
+                .withCSVParser(new CSVParserBuilder()
+                        .withSeparator(',')
+                        .withQuoteChar('"')
+                        .build())
+                .build();
+             BufferedWriter bw = new BufferedWriter(new FileWriter("src/recursos/datasetValidado.txt"))) {
 
-                    //quita signos de la linea
-                    for (int i = 0; i < line.length(); i++) {
-                        if ((line.toLowerCase().charAt(i) > 96 && line.toLowerCase().charAt(i) < 123) || line.charAt(i) == 32)
-                            newline += line.charAt(i);
-                    }
+            while (true) {
+                try {
+                    columna = reader.readNext();
+                    if (columna == null) break; // Fin del archivo
 
-                    //divide las palabras de la linea
-                    String[] palabras = newline.split(" ");
-                    String lineValid = "";
-                    //valida que las palabras no esten en el diccionario
-                    for (int i = 0; i < palabras.length; i++) {
-                        if (!stopwords.contains(palabras[i].toLowerCase()) && !palabras[i].isBlank() && !palabras[i].contains("https")) {
-                            lineValid += palabras[i].toLowerCase() + " "; //guarda las palabras ya validadas en un txt
+                    // Verificar si la columna deseada existe
+                    if (columna.length > 2) {
+                        String line = columna[2];
+
+                        line = line.toLowerCase();
+
+                        // Divide las palabras de la línea
+                        String [] palabras = line.split(" ");
+                        String lineValid = "";
+
+                        for (String palabra : palabras) {
+                            Matcher matcher = pattern.matcher(palabra);
+                            if(matcher.find()) continue;
+
+                            String newPalabra = "";
+
+                            for (int i = 0; i < palabra.length(); i++) {
+                                // Quita signos de la palabra
+                                if (palabra.charAt(i) > 96 && palabra.charAt(i) < 123)
+                                    newPalabra += palabra.charAt(i);
+                            }
+
+                            // Valida que las palabras no estén en el diccionario
+                            if (!stopwords.contains(newPalabra) && !newPalabra.isBlank()) {
+                                lineValid += newPalabra + " "; // Guarda las palabras ya validadas en un txt
+                            }
                         }
+
+                        if (!lineValid.equals("")) {
+                            bw.write(lineValid.trim());
+                            bw.write("\n");
+                        }
+
                     }
-                    if(!lineValid.equals("")){
-                        bw.write(lineValid.trim());
-                        bw.write("\n");
-                    }
+                } catch (IOException  | CsvValidationException e) {
+                    // Ignorar o registrar las líneas mal formadas
+                    System.out.println("Línea mal formada ignorada");
                 }
             }
             bw.flush();
-        } catch (IOException | CsvValidationException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("PREPROCESAMIENTO FALLO");
+            return;
         }
-
 
         System.out.println("PREPOCESAMIENTO TERMINADO CON ÉXITO");
     }
